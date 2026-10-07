@@ -1,1 +1,393 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #050505;
+  --color-charcoal: #111111;
+  --color-graphite: #1B1B1B;
+  --color-accent: #FF5A00;
+  --color-silver: #BFC3C7;
+  --color-highlight: #F4F4F4;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #050505;
+  color: #F4F4F4;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF5A00;
+}
+
+/* Film grain overlay */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Blueprint grid overlay */
+.blueprint-grid {
+  background-image: 
+    linear-gradient(rgba(191, 195, 199, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(191, 195, 199, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Brushed metal texture */
+.brushed-metal {
+  background: linear-gradient(
+    135deg,
+    #1B1B1B 0%,
+    #222 25%,
+    #1B1B1B 50%,
+    #222 75%,
+    #1B1B1B 100%
+  );
+}
+
+/* Glowing accent */
+.glow-accent {
+  box-shadow: 0 0 20px rgba(255, 90, 0, 0.3), 0 0 60px rgba(255, 90, 0, 0.1);
+}
+
+.glow-text {
+  text-shadow: 0 0 30px rgba(255, 90, 0, 0.5);
+}
+
+/* HUD overlay styles */
+.hud-panel {
+  border: 1px solid rgba(191, 195, 199, 0.15);
+  background: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.hud-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 90, 0, 0.5), transparent);
+}
+
+/* Airflow particles animation */
+@keyframes float-particle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+@keyframes flow-right {
+  0% { transform: translateX(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(100vw); opacity: 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes diagnostic-scan {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Card hover effects */
+.service-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) rotateX(2deg);
+  box-shadow: 0 20px 60px rgba(255, 90, 0, 0.15);
+}
+
+/* Technical label style */
+.tech-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(191, 195, 199, 0.6);
+}
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(191, 195, 199, 0.2), transparent);
+}
+
+/* 3D House interactive */
+.house-3d {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.house-model {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Hotspot pulse */
+.hotspot {
+  position: relative;
+}
+
+.hotspot::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 90, 0, 0.6);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Seasonal transitions */
+.season-transition {
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Diagnostic progress bar */
+.diag-progress {
+  background: linear-gradient(90deg, #FF5A00, #FF8C42);
+  animation: diagnostic-scan 2s ease-in-out forwards;
+}
+
+/* Mobile sticky CTA */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(5, 5, 5, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 90, 0, 0.3);
+  padding: 12px 16px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-cta.visible {
+  transform: translateY(0);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Entrance animation */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-animate {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+/* Metallic reflection on hover */
+.metallic-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.metallic-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(191, 195, 199, 0.03) 45%,
+    rgba(191, 195, 199, 0.05) 50%,
+    rgba(191, 195, 199, 0.03) 55%,
+    transparent 60%
+  );
+  transform: translateX(-100%) translateY(-100%);
+  transition: transform 0.6s ease;
+}
+
+.metallic-hover:hover::after {
+  transform: translateX(20%) translateY(20%);
+}
+
+/* Technical measurement lines */
+.measurement-line {
+  position: relative;
+}
+
+.measurement-line::before,
+.measurement-line::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 90, 0, 0.2);
+}
+
+.measurement-line::before {
+  width: 1px;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.measurement-line::after {
+  width: 100%;
+  height: 1px;
+  left: 0;
+  bottom: 0;
+}
+
+/* Carbon texture */
+.carbon-texture {
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(191, 195, 199, 0.03) 1px, transparent 0);
+  background-size: 8px 8px;
+}
+
+/* Temperature gradient indicator */
+.temp-gradient {
+  background: linear-gradient(180deg, 
+    #FF5A00 0%, 
+    #FF8C42 30%, 
+    #BFC3C7 60%, 
+    #4FC3F7 100%
+  );
+}
+
+/* Selection color */
+::selection {
+  background: rgba(255, 90, 0, 0.3);
+  color: #F4F4F4;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #FF5A00;
+  outline-offset: 2px;
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
+}
+
+/* Premium button hover effect */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* Custom gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #F4F4F4 0%, #BFC3C7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.accent-gradient {
+  background: linear-gradient(135deg, #FF5A00 0%, #FF8C42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(191, 195, 199, 0.1);
+}
+
+/* Technician card flip */
+.flip-card {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
